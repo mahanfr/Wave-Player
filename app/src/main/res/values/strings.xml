@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Wave Player</string>
+    <string name="title_activity_main_section">MainSection</string>
+    <string name="tab_text_1">Tracks</string>
+    <string name="tab_text_2">Playlist</string>
+    <string name="tab_text_3">Artists</string>
+    <string name="tab_text_4">Albums</string>
+    <string name="tab_text_5">Folders</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#4b5162</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="Blue_01">#001A33</color>
+    <color name="Blue_02">#003366</color>
+    <color name="Blue_03">#004080</color>
+    <color name="Blue_04">#0059B3</color>
+    <color name="Blue_05">#0066CC</color>
+    <color name="Bule_fee">#028998</color>
+    <color name="SeekBar_color">#00FFB1</color>
+    <color name="White">#ffffff</color>
+</resources>

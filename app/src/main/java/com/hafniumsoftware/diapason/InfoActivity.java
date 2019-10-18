@@ -39,7 +39,7 @@ public class InfoActivity extends AppCompatActivity {
     private Intent playIntent;
     private MediaPlayerService mediaPlayerService;
     TextView t1 ,t2;
-    ImageView imageView;
+    //ImageView imageView;
     RelativeLayout rt;
 
     private Bitmap bitmap;
@@ -132,35 +132,15 @@ public class InfoActivity extends AppCompatActivity {
             bitmap = BitmapFactory.decodeStream(inputStream);
 
         }catch (Exception e){
-            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_SHORT).show();
         }
         if(bitmap != null){
             //imageView.setImageBitmap(CropBitmap(bitmap));
             //imageView.setImageBitmap(bitmap);
             BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(),darkenBitMap(CropBitmap(bitmap)));
             rt.setBackground(bitmapDrawable);
-        }else{
-            //todo:change to rt
-            imageView.setImageResource(android.R.drawable.ic_dialog_alert);
+        }else {
+            rt.setBackgroundColor(Color.parseColor("#383c4a"));
         }
     }
-
-    /*private Bitmap CropBitmaip(Bitmap bitmap){
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        // canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
-                bitmap.getWidth() / 2, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-        return Bitmap.createScaledBitmap(output, 260, 260, false);
-    }*/
 }

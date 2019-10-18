@@ -1,12 +1,13 @@
 package com.hafniumsoftware.diapason;
 
 import android.graphics.Bitmap;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 
 import java.io.Serializable;
 
-public class Audio implements Serializable {
+public class Audio  {
 
     private String data;
     private String title;

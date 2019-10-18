@@ -81,10 +81,11 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             e.printStackTrace();
         }
         //Request audio focus
-        if (!requestAudioFocus()) {
+        //todo:Warning:undo this if you faced audio focus issue
+        /*if (!requestAudioFocus()) {
             //Could not gain focus
             stopSelf();
-        }
+        }*/
 
         handleIncomingActions(intent);
         return super.onStartCommand(intent, flags, startId);
@@ -143,6 +144,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     }
     public void Stop(){
         mediaPlayer.stop();
+        triggerChanges("Stop");
     }
 
     public void setList(ArrayList<Audio> theSongs){
@@ -195,13 +197,14 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             case AudioManager.AUDIOFOCUS_LOSS:
                 // Lost focus for an unbounded amount of time: stop playback and release media player
                 if (mediaPlayer.isPlaying())
-                    mediaPlayer.stop();
+                    //Change from stop to pause
+                    Pause();
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                 // Lost focus for a short time, but we have to stop
                 // playback. We don't release the media player because playback
                 // is likely to resume
-                if (mediaPlayer.isPlaying()) mediaPlayer.pause();
+                if (mediaPlayer.isPlaying()) Pause();
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                 // Lost focus for a short time, but it's ok to keep playing
@@ -343,12 +346,16 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }catch (Exception e){
             e.printStackTrace();
         }
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, MainActivity.class).putExtra("NotificationIntent",true), PendingIntent.FLAG_UPDATE_CURRENT);
+
         NotificationCompat.Builder notificationCompat = new NotificationCompat.Builder(this,"Id")
                 .setSmallIcon(R.drawable.ic_forground)
                 .setLargeIcon(bitmap)
                 .setContentTitle(getCurrentSong().getTitle())
                 .setContentText(getCurrentSong().getArtist())
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentIntent(contentIntent)
                 .addAction(android.R.drawable.ic_media_previous,"Previous",pendingAction(-1))
                 .addAction(btn,action,pendingAction(am))
                 .addAction(android.R.drawable.ic_media_next,"Next",pendingAction(1))
@@ -411,6 +418,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
+        requestAudioFocus();
         mediaPlayer.start();
         try {
             mediaPlayer.prepareAsync();

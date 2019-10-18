@@ -9,8 +9,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
@@ -45,7 +47,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity {
+public class  MainActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     //
     private RelativeLayout musicBar;
     private TextView songTitle, artistTitle;
+    FloatingActionButton fab;
     //
     private ArrayList<Category> albums;
     private ArrayList<Long> albumIdList = new ArrayList<>();
@@ -77,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
             initUi();
             loadSongs();
             sortToCategory();
+        }
+        if(getIntent().getBooleanExtra("NotificationIntent",false)){
+            musicBar.setVisibility(View.VISIBLE);
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(listener,new IntentFilter("NEW_SONG"));
     }
@@ -206,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         }
-        FloatingActionButton fab =  findViewById(R.id.fab);
+        fab =  findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -339,12 +345,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void OnArtistClick(View v){
+        Intent i = new Intent(this,SongSelector.class);
         int id = Integer.parseInt(v.getTag().toString());
+        //TODO:put the array list in the extras
+        i.putExtra("CName",storageUtil.loadCategory("Artist").get(id).getCategoryName());
+        i.putExtra("CVal",id);
+        startActivity(i);
+        /*int id = Integer.parseInt(v.getTag().toString());
         mediaPlayerService.Pause();
         mediaPlayerService.Stop();
         mediaPlayerService.setList(storageUtil.loadCategory("Artist").get(id).getCategoryAudios());
         mediaPlayerService.setSong(0);
-        mediaPlayerService.playSong();
+        mediaPlayerService.playSong();*/
     }
 
     @Override
@@ -388,8 +400,8 @@ public class MainActivity extends AppCompatActivity {
                     return albumsFragment;
                 case 4:
                     return tracksFragment;
-                    default:
-                        return tracksFragment;
+                default:
+                    return tracksFragment;
             }
         }
 

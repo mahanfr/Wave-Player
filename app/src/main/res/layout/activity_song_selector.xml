@@ -21,6 +21,7 @@
             android:layout_weight="1">
 
             <ImageView
+                android:id="@+id/song_selector_album_image_imageview"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_centerVertical="true"

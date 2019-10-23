@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,8 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -41,6 +44,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -335,13 +339,22 @@ public class  MainActivity extends AppCompatActivity {
         mediaPlayerService.playSong();
     }
 
-    public void openView(View view){
-        int id = Integer.parseInt(view.getTag().toString());
-        mediaPlayerService.Pause();
+    public void onAlbumClick(View v){
+        Intent i = new Intent(this,SongSelector.class);
+        int id = Integer.parseInt(v.getTag().toString());
+        //ContentResolver contentResolver = getContentResolver();
+        //Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Uri uri = Uri.parse("content://media/external/audio/albumart");
+        Uri Coveruri = ContentUris.withAppendedId(uri, storageUtil.loadCategory("Album").get(id).getAlbumId());
+        i.putExtra("CName",storageUtil.loadCategory("Album").get(id).getCategoryName());
+        i.putExtra("CVal",id);
+        i.putExtra("CImage",Coveruri.toString());
+        startActivity(i);
+        /*mediaPlayerService.Pause();
         mediaPlayerService.Stop();
         mediaPlayerService.setList(storageUtil.loadCategory("Album").get(id).getCategoryAudios());
         mediaPlayerService.setSong(0);
-        mediaPlayerService.playSong();
+        mediaPlayerService.playSong();*/
     }
 
     public void OnArtistClick(View v){

@@ -18,15 +18,6 @@ Just like every good program This one is full of bugs and problems.feel free to 
 * [Android Studio]
 * java
 
-## Download
-Apk included in main Directory
-
-## Screen Shots
-![alt text](https://github.com/mahanfarzaneh2000/Wave-Player/blob/master/image1.jpg?raw=true)
-</br></br>
-![alt text](https://github.com/mahanfarzaneh2000/Wave-Player/blob/master/image2.jpg?raw=true)
-</br></br>
-
 <!-- LICENSE -->
 ## License
 
